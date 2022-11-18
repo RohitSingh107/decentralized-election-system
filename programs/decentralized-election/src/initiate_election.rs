@@ -63,4 +63,42 @@ impl ElectionAccount {
         self.phase = ElectionPhase::Closed;
         Ok(())
     }
+
+
+    pub fn record_vote(&mut self, id: u64, votes: u64){
+
+        if !self.winners_id.contains(&id) {
+            if self.winners_id.len() < self.winners_count as usize {
+                self.winners_id.push(id);
+                self.winners_votes_count.push(votes);
+            } else {
+                let current_last_winner = (self.winners_count -1) as usize;
+
+                if votes > self.winners_id[current_last_winner] {
+                    self.winners_votes_count[current_last_winner] = votes;
+                } else {
+                    return;
+                }
+            }
+        }
+
+        // Sorting Votes
+        let mut p = self.winners_id.iter().position(|&r| r == id).unwrap();
+
+        while p > 0 && self.winners_votes_count[p] > self.winners_votes_count[p-1] {
+            let vote_holder = self.winners_votes_count[p-1];
+            let id_holder = self.winners_id[p-1];
+
+            self.winners_votes_count[p-1] = self.winners_votes_count[p];
+            self.winners_votes_count[p] = vote_holder;
+
+            self.winners_id[p-1] = self.winners_id[p];
+            self.winners_id[p] = id_holder;
+
+            p -= 1;
+        }
+
+    }
+
+
 }

@@ -19,6 +19,8 @@ pub fn vote(ctx: Context<Vote>) -> Result<()> {
     candidate.votes += 1;
     voted_to.id = candidate.id;
 
+    election_account.record_vote(candidate.id, candidate.votes);
+
     Ok(())
 }
 
