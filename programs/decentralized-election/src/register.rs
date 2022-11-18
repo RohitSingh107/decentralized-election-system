@@ -20,7 +20,7 @@ pub struct Register<'info> {
         init,
         payer = signer,
         space = 8 + 8 + 32,
-        seeds = [
+    seeds = [
         b"candidate",
         signer.key().as_ref(),
 

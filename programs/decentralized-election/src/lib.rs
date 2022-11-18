@@ -5,13 +5,14 @@ pub mod change_phase;
 pub mod election_enums;
 pub mod initiate_election;
 pub mod register;
+pub mod vote;
 
+use crate::election_enums::ElectionPhase;
 use apply::*;
 use change_phase::*;
 use initiate_election::*;
 use register::*;
-
-use crate::election_enums::ElectionPhase;
+use vote::*;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
@@ -33,5 +34,9 @@ pub mod decentralized_election {
 
     pub fn change_phase(ctx: Context<ChangePhase>, new_phase: ElectionPhase) -> Result<()> {
         change_phase::change_phase(ctx, new_phase)
+    }
+
+    pub fn vote(ctx: Context<Vote>) -> Result<()> {
+        vote::vote(ctx)
     }
 }
