@@ -10,8 +10,8 @@ pub fn apply(ctx: Context<Apply>) -> Result<()> {
 
     require!(election_account.phase == ElectionPhase::Registration, ElectionError::RegistrationPhaseClosed);
 
-    election_account.candidate += 1;
-    ctx.accounts.candidate_id.id = election_account.candidate;
+    election_account.candidates_count += 1;
+    ctx.accounts.candidate_id.id = election_account.candidates_count;
     ctx.accounts.candidate_id.pubkey = ctx.accounts.signer.key();
 
 

@@ -5,12 +5,13 @@ use crate::election_enums::{ElectionError, ElectionPhase};
 pub fn initiate_election(ctx: Context<InitiateElection>, winners_count: u8) -> Result<()> {
     require!(winners_count > 0, ElectionError::WinnerCountNotAllowed);
     let election_account = &mut ctx.accounts.election_account;
-    election_account.candidate = 0;
+    election_account.candidates_count = 0;
     election_account.phase = ElectionPhase::Registration;
     election_account.election_officer = ctx.accounts.signer.key();
     election_account.winners_count = winners_count;
     Ok(())
 }
+
 #[derive(Accounts)]
 #[instruction(winners_count:u8)]
 pub struct InitiateElection<'info> {
@@ -28,10 +29,38 @@ pub struct InitiateElection<'info> {
 
 #[account]
 pub struct ElectionAccount {
-    pub candidate: u64,
+    pub candidates_count: u64,
     pub phase: ElectionPhase,
     pub election_officer: Pubkey,
     pub winners_count: u8,
     pub winners_id: Vec<u64>,
     pub winners_votes_count: Vec<u64>,
+}
+
+impl ElectionAccount {
+    pub fn close_registration(&mut self) -> Result<()> {
+        require!(
+            self.phase == ElectionPhase::Registration,
+            ElectionError::RegistrationPhaseClosed
+        );
+
+        if self.candidates_count <= self.winners_count as u64 {
+            for i in 1..=self.candidates_count {
+                self.winners_id.push(i);
+                self.phase = ElectionPhase::Closed;
+            }
+        } else {
+            self.phase = ElectionPhase::Voting;
+        }
+        Ok(())
+    }
+
+    pub fn close_voting(&mut self) -> Result<()> {
+        require!(
+            self.phase == ElectionPhase::Voting,
+            ElectionError::NotAtVotingPhase
+        );
+        self.phase = ElectionPhase::Closed;
+        Ok(())
+    }
 }
