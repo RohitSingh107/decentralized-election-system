@@ -11,4 +11,5 @@ pub enum ElectionPhase {
 pub enum ElectionError {
     WinnerCountNotAllowed,
     RegistrationPhaseClosed,
+    WrongPubKey,
 }

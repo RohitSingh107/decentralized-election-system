@@ -4,6 +4,7 @@ use anchor_lang::prelude::*;
 pub mod election_enums;
 pub mod initiate_election;
 pub mod apply;
+pub mod register;
 
 use initiate_election::*;
 
