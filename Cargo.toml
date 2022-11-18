@@ -1,7 +1,9 @@
 [workspace]
 members = [
-    "programs/*"
+    "programs/*",
+    "client/election",
 ]
+
 
 [profile.release]
 overflow-checks = true
