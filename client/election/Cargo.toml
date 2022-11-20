@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 anchor-client = "0.25.0"
 decentralized-election = { path = "../../programs/decentralized-election", features = ["no-entrypoint"] }
+shellexpand = "2.1.2"

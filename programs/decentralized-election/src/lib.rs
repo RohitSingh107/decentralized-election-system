@@ -14,7 +14,7 @@ use initiate_election::*;
 use register::*;
 use vote::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("EHTP9uMcGGMzXbUkShrSJ7e114gMnkW7nTWgvCQGmE2M");
 
 #[program]
 pub mod decentralized_election {
