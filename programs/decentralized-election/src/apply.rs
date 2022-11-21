@@ -6,6 +6,8 @@ use crate::initiate_election::ElectionAccount;
 
 pub fn apply(ctx: Context<Apply>) -> Result<()> {
 
+    msg!("Applying for elections...");
+
     let election_account = &mut ctx.accounts.election_account;
 
     require!(election_account.phase == ElectionPhase::Registration, ElectionError::RegistrationPhaseClosed);
@@ -14,6 +16,7 @@ pub fn apply(ctx: Context<Apply>) -> Result<()> {
     ctx.accounts.candidate_id.id = election_account.candidates_count;
     ctx.accounts.candidate_id.pubkey = ctx.accounts.signer.key();
 
+    msg!("Successfully Applied!");
 
     Ok(())
     
@@ -29,7 +32,8 @@ pub struct Apply<'info> {
         seeds = [
 
         b"candidate",
-        signer.key.as_ref()
+        signer.key.as_ref(),
+        election_account.key().as_ref()
 
         ],
         bump

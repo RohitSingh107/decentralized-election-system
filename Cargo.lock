@@ -1102,6 +1102,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-client",
  "decentralized-election",
+ "rand 0.7.3",
  "shellexpand",
 ]
 

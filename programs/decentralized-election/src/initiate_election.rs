@@ -3,12 +3,14 @@ use anchor_lang::prelude::*;
 use crate::election_enums::{ElectionError, ElectionPhase};
 
 pub fn initiate_election(ctx: Context<InitiateElection>, winners_count: u8) -> Result<()> {
+    msg!("Starting election...");
     require!(winners_count > 0, ElectionError::WinnerCountNotAllowed);
     let election_account = &mut ctx.accounts.election_account;
     election_account.candidates_count = 0;
     election_account.phase = ElectionPhase::Registration;
     election_account.election_officer = ctx.accounts.signer.key();
     election_account.winners_count = winners_count;
+    msg!("Successfully initiated election!");
     Ok(())
 }
 
