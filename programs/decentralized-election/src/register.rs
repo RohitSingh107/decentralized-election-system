@@ -19,12 +19,11 @@ pub struct Register<'info> {
     #[account(
         init,
         payer = signer,
-        space = 8 + 8 + 32,
+        space = 8 + 8 + 8 + 32,
     seeds = [
-        b"candidate",
-        signer.key().as_ref(),
-
-        ],
+    &(candidate_id.id).to_be_bytes(),
+    election_account.key().as_ref()
+    ],
         bump
         )]
     pub candidate_election_data: Account<'info, CandidateElectionData>,
